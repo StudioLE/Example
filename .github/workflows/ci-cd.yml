@@ -68,5 +68,5 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ needs.release.outputs.environment }}
     steps:
-      - run: |
-          echo "Environment: ${{ needs.release.outputs.environment }}"
+    - run: |
+        echo "Environment: ${{ needs.release.outputs.environment }}"

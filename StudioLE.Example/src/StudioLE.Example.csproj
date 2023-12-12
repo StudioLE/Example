@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>This package is now OBSOLETE. The previous logic has been moved to separate packages.</Description>
+    <Description>This is an example project library.</Description>
   </PropertyGroup>
 
   <!-- Use consistent properties across all projects -->

@@ -4,7 +4,7 @@
   <Import Project="..\..\Global.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\src\StudioLE.Extensions.System.csproj" />
+    <ProjectReference Include="..\src\StudioLE.Example.csproj" />
   </ItemGroup>
 
   <ItemGroup>

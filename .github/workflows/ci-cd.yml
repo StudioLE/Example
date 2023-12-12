@@ -18,9 +18,8 @@ jobs:
     environment: Production
     uses: ./01-test.yml
     with:
-      solution:  ""
+      project: ""
       os: windows-latest
-      version: ${{ needs.release.outputs.version }}
     secrets: inherit
 
   release:

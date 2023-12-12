@@ -7,7 +7,7 @@ jobs:
 
   test-ubuntu:
     name: Ubuntu
-    uses: ./01-test.yml
+    uses: ./.github/workflows/01-test.yml
     with:
       project: ""
       os: ubuntu-latest

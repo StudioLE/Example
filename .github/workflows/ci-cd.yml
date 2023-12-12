@@ -1,39 +1,39 @@
-name: CI/CD
+﻿name: CI/CD
 
 on:
   push:
 
 jobs:
 
-  release:
-    name: Create Release
-    uses: StudioLE/Actions/.github/workflows/01-semantic-release.yml@main
-    secrets: inherit
-
-  build-and-test-ubuntu:
+  test-ubuntu:
     name: Ubuntu
-    needs: release
-    uses: StudioLE/Actions/.github/workflows/02-build-and-test.yml@main
+    uses: ./01-test.yml
     with:
-      solution: ""
+      project: ""
       os: ubuntu-latest
-      version: ${{ needs.release.outputs.version }}
     secrets: inherit
 
-  build-and-test-windows:
+  test-windows:
     name: Windows
-    if: ${{ contains(fromJSON('["refs/heads/main", "refs/heads/alpha", "refs/heads/beta"]'), github.ref) }}
-    needs: release
-    uses: StudioLE/Actions/.github/workflows/02-build-and-test.yml@main
+    environment: Production
+    uses: ./01-test.yml
     with:
       solution:  ""
       os: windows-latest
       version: ${{ needs.release.outputs.version }}
     secrets: inherit
 
+  release:
+    name: Release
+    environment: Production
+    needs:
+      - test-ubuntu
+    uses: ./02-release.yml
+    secrets: inherit
+
   publish-nuget:
     name: Publish NuGet
-    if: ${{ contains(fromJSON('["refs/heads/main", "refs/heads/alpha", "refs/heads/beta"]'), github.ref) }}
+    environment: Production
     needs:
       - release
       - build-and-test-ubuntu

@@ -16,7 +16,7 @@ jobs:
   test-windows:
     name: Windows
     environment: Production
-    uses: ./01-test.yml
+    uses: ./.github/workflows/01-test.yml
     with:
       project: ""
       os: windows-latest
@@ -27,16 +27,15 @@ jobs:
     environment: Production
     needs:
       - test-ubuntu
-    uses: ./02-release.yml
+    uses: ./.github/workflows/02-release.yml
     secrets: inherit
 
-  publish-nuget:
-    name: Publish NuGet
+  push:
+    name: Push NuGet
     environment: Production
     needs:
       - release
-      - build-and-test-ubuntu
-    uses: StudioLE/Actions/.github/workflows/03-publish-nuget.yml@main
+    uses: ./.github/workflows/03-push.yml
     with:
       version: ${{ needs.release.outputs.version }}
     secrets: inherit

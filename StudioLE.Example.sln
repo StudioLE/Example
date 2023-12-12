@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudioLE.Example", "StudioL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudioLE.Example.Tests", "StudioLE.Example\tests\StudioLE.Example.Tests.csproj", "{4BE503EF-D1FB-48A2-8FB7-6F7FB2F9CCDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudioLE.Example.Cli", "StudioLE.Example\samples\StudioLE.Example.Cli.csproj", "{0DB23576-837C-4A84-922D-BA0FAC90A778}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{4BE503EF-D1FB-48A2-8FB7-6F7FB2F9CCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BE503EF-D1FB-48A2-8FB7-6F7FB2F9CCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BE503EF-D1FB-48A2-8FB7-6F7FB2F9CCDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB23576-837C-4A84-922D-BA0FAC90A778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB23576-837C-4A84-922D-BA0FAC90A778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB23576-837C-4A84-922D-BA0FAC90A778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB23576-837C-4A84-922D-BA0FAC90A778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

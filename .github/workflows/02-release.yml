@@ -107,6 +107,7 @@ jobs:
           then
             echo "environment=Development" >> $GITHUB_OUTPUT
           elif [[ "${LATEST_TAG}" == *"-"* ]]
+          then
             echo "environment=Staging" >> $GITHUB_OUTPUT
           else
             echo "environment=Production" >> $GITHUB_OUTPUT

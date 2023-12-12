@@ -51,7 +51,7 @@ jobs:
               [
                 "@semantic-release/commit-analyzer",
                 {
-                  "preset": "conventionalcommits",
+                  "preset": "angular",
                   "releaseRules": [
                     { "breaking": true, "release": "major" },
                     { "revert": true, "release": "patch" },

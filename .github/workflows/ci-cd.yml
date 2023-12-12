@@ -58,5 +58,5 @@ jobs:
       runtime: ${{ matrix.runtime }}
       npm: ""
       workload: ""
-      name: StudioLE.Example.Cli-${{ needs.analysis.outputs.version }}-${{ matrix.runtime }}
+      name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-${{ matrix.runtime }}
     secrets: inherit

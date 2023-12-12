@@ -16,6 +16,8 @@ jobs:
   production:
     runs-on: ubuntu-latest
     environment: Production
+    steps:
+      - run: echo "Hello, world!"
 
   test-windows:
     name: Windows

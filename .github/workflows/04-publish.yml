@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       project:
-        required: false
+        required: true
         type: string
       version:
         required: true
@@ -96,7 +96,7 @@ jobs:
           path: artifacts/${{ inputs.path }}
 
       - name: Upload Release Asset
-        if: ${{ inputs.version != '0.0.0' }}
+        if: ${{ inputs.version != '' }}
         working-directory: artifacts/${{ inputs.path }}
         env:
           GH_TOKEN: ${{ github.token }}

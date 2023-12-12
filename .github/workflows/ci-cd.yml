@@ -13,17 +13,10 @@ jobs:
       os: ubuntu-latest
     secrets: inherit
 
-  production:
-    runs-on: ubuntu-latest
-    environment: Production
-    steps:
-      - run: echo "Hello, world!"
-
   test-windows:
     name: Windows
+    if: ${{ contains(fromJSON('["refs/heads/main", "refs/heads/alpha", "refs/heads/beta"]'), github.ref) }}
     uses: ./.github/workflows/01-test.yml
-    needs:
-      - production
     with:
       project: ""
       os: windows-latest
@@ -31,17 +24,19 @@ jobs:
 
   release:
     name: Release
+    if: ${{ contains(fromJSON('["refs/heads/main", "refs/heads/alpha", "refs/heads/beta"]'), github.ref) }}
     needs:
-      - production
       - test-ubuntu
     uses: ./.github/workflows/02-release.yml
     secrets: inherit
 
   push:
-    name: Push NuGet
+    name: Push
     needs:
       - release
     uses: ./.github/workflows/03-push.yml
     with:
+      project: ""
       version: ${{ needs.release.outputs.version }}
+      environment: ${{ needs.release.outputs.environment }}
     secrets: inherit

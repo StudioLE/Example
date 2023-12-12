@@ -14,6 +14,9 @@ on:
       project:
         required: false
         type: string
+      environment:
+        required: true
+        type: string
     secrets:
       PACKAGES_TOKEN:
         required: false
@@ -23,6 +26,7 @@ jobs:
   push:
     name: Push
     runs-on: ${{ inputs.os }}
+    environment: ${{ inputs.environment }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       NUGET_CERT_REVOCATION_MODE: offline

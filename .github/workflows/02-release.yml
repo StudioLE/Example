@@ -10,6 +10,8 @@ on:
     outputs:
       version:
         value: ${{ jobs.release.outputs.version }}
+      environment:
+        value: ${{ jobs.release.outputs.environment }}
 
 jobs:
 
@@ -18,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.set.outputs.version }}
+      environment: ${{ steps.set.outputs.environment }}
     steps:
 
       - name: Checkout Repo
@@ -78,7 +81,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: semantic-release
 
-      - name: Set Metadata
+      - name: Set
         id: set
         run: |
           LATEST_TAG=$(git describe --tags --abbrev=0)
@@ -100,6 +103,16 @@ jobs:
             echo "version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Read Metadata
+          if [[ "${IS_HEAD_LATEST}" == "0" ]]
+          then
+            echo "environment=Development" >> $GITHUB_OUTPUT
+          elif [[ "${LATEST_TAG}" == *"-"* ]]
+            echo "environment=Staging" >> $GITHUB_OUTPUT
+          else
+            echo "environment=Production" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read
         run: |
           echo "Version: ${{ steps.set.outputs.version }}"
+          echo "Environment: ${{ steps.set.outputs.environment }}"

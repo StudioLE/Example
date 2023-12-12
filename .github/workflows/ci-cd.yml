@@ -15,7 +15,7 @@ jobs:
 
   test-windows:
     name: Windows
-    if: ${{ github.ref_type == "branch" && contains(fromJSON('["main", "beta"]'), github.ref_name) }}
+    if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "beta"]'), github.ref_name) }}
     uses: ./.github/workflows/01-test.yml
     with:
       project: ""
@@ -24,7 +24,7 @@ jobs:
 
   release:
     name: Release
-    if: ${{ github.ref_type == "branch" && contains(fromJSON('["main", "alpha", "beta"]'), github.ref_name) }}
+    if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "alpha", "beta"]'), github.ref_name) }}
     needs:
       - test-ubuntu
     uses: ./.github/workflows/02-release.yml

@@ -26,17 +26,37 @@ jobs:
     name: Release
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "alpha", "beta"]'), github.ref_name) }}
     needs:
-      - test-ubuntu
+    - test-ubuntu
     uses: ./.github/workflows/02-release.yml
     secrets: inherit
 
   push:
     name: Push
     needs:
-      - release
+    - release
     uses: ./.github/workflows/03-push.yml
     with:
       project: ""
       version: ${{ needs.release.outputs.version }}
       environment: ${{ needs.release.outputs.environment }}
+    secrets: inherit
+
+  publish:
+    name: Publish
+    needs:
+    - release
+    uses: ./.github/workflows/04-publish.yml
+    strategy:
+      matrix:
+        runtime:
+        - win-x64
+        - linux-x64
+    with:
+      project: StudioLE.Example/samples/StudioLE.Example.Cli.csproj
+      version: ${{ needs.release.outputs.version }}
+      environment: ${{ needs.release.outputs.environment }}
+      runtime: ${{ matrix.runtime }}
+      npm: ""
+      workload: ""
+      name: StudioLE.Example.Cli-${{ needs.analysis.outputs.version }}-${{ matrix.runtime }}
     secrets: inherit

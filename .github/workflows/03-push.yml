@@ -11,11 +11,11 @@ on:
         required: false
         type: string
         default: 0.0.0
-      project:
-        required: false
-        type: string
       environment:
         required: true
+        type: string
+      project:
+        required: false
         type: string
     secrets:
       PACKAGES_TOKEN:
@@ -37,6 +37,7 @@ jobs:
       run: |
         echo "OS: ${{ inputs.os }}"
         echo "Version: ${{ inputs.version }}"
+        echo "Environment: ${{ inputs.environment }}"
         echo "Project: ${{ inputs.project }}"
         echo "PACKAGES_TOKEN: ${{ env.USE_PACKAGES_TOKEN }}"
 

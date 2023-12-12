@@ -38,7 +38,6 @@ jobs:
     with:
       project: ""
       version: ${{ needs.release.outputs.version }}
-      environment: ${{ needs.release.outputs.environment }}
     secrets: inherit
 
   publish:
@@ -54,9 +53,20 @@ jobs:
     with:
       project: StudioLE.Example/samples/StudioLE.Example.Cli.csproj
       version: ${{ needs.release.outputs.version }}
-      environment: ${{ needs.release.outputs.environment }}
       runtime: ${{ matrix.runtime }}
       npm: ""
       workload: ""
       name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-${{ matrix.runtime }}
     secrets: inherit
+
+  environment:
+    name: Environment
+    needs:
+    - release
+    - push
+    - publish
+    runs-on: ubuntu-latest
+    environment: ${{ needs.release.outputs.environment }}
+    steps:
+      - run: |
+          echo "Environment: ${{ needs.release.outputs.environment }}"

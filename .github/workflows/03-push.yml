@@ -11,9 +11,6 @@ on:
         required: false
         type: string
         default: 0.0.0
-      environment:
-        required: true
-        type: string
       project:
         required: false
         type: string
@@ -26,7 +23,6 @@ jobs:
   push:
     name: Push
     runs-on: ${{ inputs.os }}
-    environment: ${{ inputs.environment }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       NUGET_CERT_REVOCATION_MODE: offline
@@ -37,7 +33,6 @@ jobs:
       run: |
         echo "OS: ${{ inputs.os }}"
         echo "Version: ${{ inputs.version }}"
-        echo "Environment: ${{ inputs.environment }}"
         echo "Project: ${{ inputs.project }}"
         echo "PACKAGES_TOKEN: ${{ env.USE_PACKAGES_TOKEN }}"
 

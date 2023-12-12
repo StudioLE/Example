@@ -9,9 +9,6 @@ on:
       version:
         required: true
         type: string
-      environment:
-        required: true
-        type: string
       runtime:
         required: true
         type: string
@@ -37,7 +34,6 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       NUGET_CERT_REVOCATION_MODE: offline
@@ -47,7 +43,6 @@ jobs:
       - name: Read Metadata
         run: |
           echo "Version: ${{ inputs.version }}"
-          echo "Environment: ${{ inputs.environment }}"
           echo "NPM: ${{ inputs.npm }}"
           echo "Project: ${{ inputs.project }}"
           echo "Runtime: ${{ inputs.runtime }}"

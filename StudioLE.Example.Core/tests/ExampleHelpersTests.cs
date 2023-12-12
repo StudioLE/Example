@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace StudioLE.Example.Tests;
+namespace StudioLE.Example.Core.Tests;
 
 internal sealed class ExampleHelpersTests
 {

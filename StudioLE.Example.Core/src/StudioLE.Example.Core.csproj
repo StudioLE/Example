@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <RootNamespace>StudioLE.Example</RootNamespace>
     <Description>This is an example project library.</Description>
   </PropertyGroup>
 

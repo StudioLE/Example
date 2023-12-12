@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>example</AssemblyName>
+    <AssemblyName>StudioLE.Example</AssemblyName>
     <Description>This is an example project executable.</Description>
   </PropertyGroup>
 
@@ -10,7 +10,7 @@
   <Import Project="..\..\Global.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\src\StudioLE.Example.csproj" />
+    <ProjectReference Include="..\..\StudioLE.Example.Core\src\StudioLE.Example.Core.csproj" />
   </ItemGroup>
 
 </Project>

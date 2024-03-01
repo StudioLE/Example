@@ -126,9 +126,11 @@ jobs:
         done <<< "${PROJECTS}"
 
     - name: List Artifacts
+      if: ${{ steps.set.outputs.projects != '' }}
       run: ls -1 artifacts
 
     - name: Push To GitHub Packages
+      if: ${{ steps.set.outputs.projects != '' }}
       run: >
         dotnet nuget push "artifacts/*"
         --skip-duplicate

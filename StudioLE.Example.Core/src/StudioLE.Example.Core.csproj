@@ -5,6 +5,10 @@
     <Description>This is an example project library.</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Surveyor.BuildVersioning" Version="0.2.0" Condition="'$(CI)' == 'true'" />
+  </ItemGroup>
+
   <!-- Use consistent properties across all projects -->
   <Import Project="../../Global.props"/>
 

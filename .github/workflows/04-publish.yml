@@ -6,9 +6,6 @@ on:
       project:
         required: true
         type: string
-      version:
-        required: true
-        type: string
       runtime:
         required: true
         type: string
@@ -74,7 +71,6 @@ jobs:
       run: >
         dotnet publish "${{ inputs.project }}"
         --configuration "Release"
-        -p:Version="${{ inputs.version }}"
         --runtime "${{ inputs.runtime }}"
         --output artifacts
 

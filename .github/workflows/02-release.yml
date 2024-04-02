@@ -73,14 +73,23 @@ jobs:
         cat artifacts/RELEASE_NOTES.md
 
     - name: Create Release
-      if: ${{ steps.set-version.outputs.version != '' }}
+      if: ${{ steps.set-version.outputs.version != '' && ! contains(steps.set-version.outputs.version, '-') }}
       env:
         GH_TOKEN: ${{ github.token }}
       run: >
         gh release create
         "v${{ steps.set-version.outputs.version }}"
         --notes-file artifacts/RELEASE_NOTES.md
-        --draft
+
+    - name: Create Pre-Release
+      if: ${{ steps.set-version.outputs.version != '' && contains(steps.set-version.outputs.version, '-') }}
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: >
+        gh release create
+        "v${{ steps.set-version.outputs.version }}"
+        --notes-file artifacts/RELEASE_NOTES.md
+        --prerelease
 
     - name: Determine Environment
       id: set-environment

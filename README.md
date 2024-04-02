@@ -56,7 +56,7 @@
 
 - Fully automated with GitHub Actions: [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
 - Build and test execution: [`.github/workflows/01-test.yml`](.github/workflows/01-test.yml).
-- Automatic semantic versioning with [semantic-release](https://github.com/semantic-release/semantic-release): [`.github/workflows/02-release.yml`](.github/workflows/02-release.yml).
+- Automatic versioning following Semantic Versioning 2.0.0 specification with [Surveyor](https://github.com/StudioLE/Surveyor): [`.github/workflows/02-release.yml`](.github/workflows/02-release.yml).
 - NuGets pushed to GitHub Packages and NuGet.org: [`.github/workflows/03-push.yml`](.github/workflows/03-push.yml).
 - Executable published to GitHub Releases: [`.github/workflows/04-publish.yml`](.github/workflows/04-publish.yml).
 - GitHub deployment environments: [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).

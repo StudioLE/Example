@@ -68,6 +68,7 @@ jobs:
       npm: ""
       workload: ""
       name: StudioLE.Example-${{ needs.release.outputs.version }}-${{ matrix.runtime }}
+      version: ${{ needs.release.outputs.version }}
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       nuget_username: ${{ github.repository_owner }}
     secrets:

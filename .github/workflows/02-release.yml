@@ -36,6 +36,7 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v4
       with:
+        fetch-depth: 0
         fetch-tags: true
 
     - name: Add NuGet Source
@@ -66,14 +67,19 @@ jobs:
 
     - name: Create Release Notes
       if: ${{ steps.set-version.outputs.version != '' }}
-      run: Surveyor release-notes > RELEASE_NOTES.md
+      run: |
+        mkdir artifacts
+        Surveyor release-notes > artifacts/RELEASE_NOTES.md
+        cat artifacts/RELEASE_NOTES.md
 
     - name: Create Release
       if: ${{ steps.set-version.outputs.version != '' }}
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: >
         gh release create
         "v${{ steps.set-version.outputs.version }}"
-        --notes-file RELEASE_NOTES.md
+        --notes-file artifacts/RELEASE_NOTES.md
         --draft
 
     - name: Determine Environment

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Surveyor.BuildVersioning" Version="0.2.0" Condition="'$(CI)' == 'true'" />
+    <PackageReference Include="Surveyor.BuildVersioning" Version="0.2.2-alpha.2" Condition="'$(CI)' == 'true'" />
   </ItemGroup>
 
 </Project>

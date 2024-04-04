@@ -42,13 +42,12 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(IsExecutable)">
-    <PackageReference Include="Surveyor.BuildVersioning" Version="0.4.0-alpha.2" PrivateAssets="All" Condition="'$(CI)' == 'true'" />
+  <ItemGroup Condition="$(IsExecutable) OR $(IsLibrary)">
+    <PackageReference Include="Surveyor.BuildVersioning" Version="0.4.0-alpha.6" PrivateAssets="All" Condition="'$(CI)' == 'true'" />
   </ItemGroup>
 
   <ItemGroup Condition="$(IsLibrary)">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
-    <PackageReference Include="Surveyor.BuildVersioning" Version="0.4.0-alpha.2" PrivateAssets="All" Condition="'$(CI)' == 'true'" />
   </ItemGroup>
 
 </Project>

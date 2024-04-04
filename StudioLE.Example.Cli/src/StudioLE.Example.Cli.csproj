@@ -13,8 +13,4 @@
     <ProjectReference Include="..\..\StudioLE.Example.Core\src\StudioLE.Example.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Surveyor.BuildVersioning" Version="0.2.3" Condition="'$(CI)' == 'true'" />
-  </ItemGroup>
-
 </Project>

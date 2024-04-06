@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <Authors>StudioLE</Authors>
-    <Copyright>Copyright © Laurence Elsdon 2023</Copyright>
+    <Copyright>Copyright © Laurence Elsdon 2024</Copyright>
     <PackageProjectUrl>https://github.com/StudioLE/Example</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>example dotnet csharp best practice</PackageTags>
+    <PackageTags>example dotnet csharp best practice standards</PackageTags>
+    <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -14,9 +15,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="../../README.md" Pack="true" PackagePath="\" Visible="false"/>
-  </ItemGroup>
+  <PropertyGroup>
+    <RepositoryReadmeFilePath>../../README.md</RepositoryReadmeFilePath>
+    <ProjectReadmeFilePath>README.md</ProjectReadmeFilePath>
+    <PackageReadmeFile Condition="Exists('$(RepositoryReadmeFilePath)')">$(RepositoryReadmeFilePath)</PackageReadmeFile>
+    <PackageReadmeFile Condition="Exists('$(ProjectReadmeFilePath)')">$(ProjectReadmeFilePath)</PackageReadmeFile>
+  </PropertyGroup>
 
   <PropertyGroup>
     <IsExecutable>false</IsExecutable>
@@ -48,6 +52,11 @@
 
   <ItemGroup Condition="$(IsLibrary)">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsLibrary) OR $(IsExecutable)">
+    <Content Condition="'$(PackageReadmeFile)' == '$(ProjectReadmeFilePath)'" Include="$(PackageReadmeFile)" Pack="true" PackagePath="/" />
+    <None Condition="'$(PackageReadmeFile)' == '$(RepositoryReadmeFilePath)'" Include="$(PackageReadmeFile)" Pack="true" PackagePath="/" Visible="false" />
   </ItemGroup>
 
 </Project>

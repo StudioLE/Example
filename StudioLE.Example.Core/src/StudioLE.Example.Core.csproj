@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>StudioLE.Example</RootNamespace>
-    <Description>This is an example project library.</Description>
+    <Description>Core libraries for showcasing an exemplar implementation.</Description>
   </PropertyGroup>
 
   <!-- Use consistent properties across all projects -->

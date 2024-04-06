@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>StudioLE.Example</AssemblyName>
-    <Description>This is an example project executable.</Description>
+    <Description>A CLI tool to show an exemplar implementation.</Description>
   </PropertyGroup>
 
   <!-- Use consistent properties across all projects -->

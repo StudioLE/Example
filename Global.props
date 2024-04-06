@@ -32,22 +32,22 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsExecutable)">
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net8.0</TargetFramework>
     <PackAsTool>true</PackAsTool>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestLibrary)">
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net8.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsLibrary)">
-    <TargetFramework Condition="'$(TargetFramework)' == ''">netstandard2.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">netstandard2.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsExecutable) OR $(IsLibrary)">
-    <PackageReference Include="Surveyor.BuildVersioning" Version="0.4.0-alpha.6" PrivateAssets="All" Condition="'$(CI)' == 'true'" />
+    <PackageReference Include="Surveyor.BuildVersioning" Version="0.4.0" PrivateAssets="All" Condition="'$(CI)' == 'true'" />
   </ItemGroup>
 
   <ItemGroup Condition="$(IsLibrary)">

@@ -60,6 +60,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: repo
+        fetch-depth: 0
+        fetch-tags: true
 
     - name: Checkout Documentation
       uses: actions/checkout@v4

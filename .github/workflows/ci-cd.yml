@@ -75,7 +75,7 @@ jobs:
       nuget_password: ${{ secrets.PACKAGES_TOKEN }}
 
   documentation:
-    name: Ubuntu
+    name: Documentation
     if: ${{ needs.release.outputs.version != '' }}
     needs:
     - release
@@ -85,6 +85,7 @@ jobs:
       os: ubuntu-latest
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       nuget_username: ${{ github.repository_owner }}
+      environment: ${{ needs.release.outputs.environment }}
       source: "*/src/bin/Release/*/StudioLE.*.dll"
       section: "example"
       version: ${{ needs.release.outputs.version }}

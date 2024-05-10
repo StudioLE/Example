@@ -1,14 +1,26 @@
-name: Test
+name: Publish
 
 on:
   workflow_call:
     inputs:
-      os:
+      project:
+        required: true
+        type: string
+      runtime:
+        required: true
+        type: string
+      npm:
         required: false
         type: string
-        default: ubuntu-latest
-      project:
+      workload:
         required: false
+        type: string
+      artifact:
+        required: true
+        type: string
+      path:
+        required: false
+        default: ""
         type: string
       nuget_feed:
         required: false
@@ -22,9 +34,9 @@ on:
 
 jobs:
 
-  test:
-    name: Test
-    runs-on: ${{ inputs.os }}
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       NUGET_CERT_REVOCATION_MODE: offline
@@ -37,6 +49,17 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
 
+    - name: Restore npm Dependencies
+      if: ${{ inputs.npm != '' }}
+      working-directory: ${{ inputs.npm }}
+      run: |
+        npm install
+        npm run build
+
+    - name: Install workload
+      if: ${{ inputs.workload != '' }}
+      run: dotnet workload install ${{ inputs.workload }}
+
     - name: Add NuGet Source
       if: ${{ inputs.nuget_feed != '' }}
       shell: bash
@@ -47,42 +70,17 @@ jobs:
         --store-password-in-clear-text
         "${{ inputs.nuget_feed }}"
 
-    - name: Restore NuGet Dependencies
+    - name: Publish
       run: >
-        dotnet restore "${{ inputs.project }}"
-        --nologo
-        --verbosity minimal
-
-    - name: Build
-      run: >
-        dotnet build "${{ inputs.project }}"
-        --configuration "Release"
-        -p:ContinuousIntegrationBuild=true
-        -p:PublishRepositoryUrl=true
-        -p:EmbedUntrackedSources=true
-        -p:IncludeSymbols=true
-        -p:SymbolPackageFormat=snupkg
+        dotnet publish "${{ inputs.project }}"
         -p:SurveyorFeed="${{ inputs.nuget_feed }}"
         -p:SurveyorToken="${{ secrets.nuget_password }}"
-        --nologo
-        --no-restore
-        --verbosity minimal
-
-    - name: Test
-      run: >
-        dotnet test "${{ inputs.project }}"
         --configuration "Release"
-        --nologo
-        --no-build
-        --verbosity quiet
-        --logger="Console;verbosity=normal"
-        --logger html
-        --logger trx
-        --results-directory "Tests-${{ runner.os }}-${{ runner.arch }}"
+        --runtime "${{ inputs.runtime }}"
+        --output artifacts
 
-    - name: Upload Test Artifact
-      if: ${{ always() }}
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Tests-${{ runner.os }}-${{ runner.arch }}
-        path: Tests-${{ runner.os }}-${{ runner.arch }}
+        name: ${{ inputs.artifact }}
+        path: artifacts/${{ inputs.path }}

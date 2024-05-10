@@ -57,6 +57,8 @@ jobs:
 
     - name: Determine Version
       id: set-version
+      env:
+        LOGGING__LOGLEVEL__DEFAULT: Trace
       run: |
         LATEST_VERSION=$(Surveyor version)
         echo "LATEST_VERSION: ${LATEST_VERSION}"
@@ -70,6 +72,8 @@ jobs:
 
     - name: Create Release Notes
       if: ${{ steps.set-version.outputs.version != '' }}
+      env:
+        LOGGING__LOGLEVEL__DEFAULT: Trace
       run: |
         mkdir artifacts
         Surveyor release-notes > artifacts/RELEASE_NOTES.md

@@ -29,8 +29,6 @@ on:
     secrets:
       nuget_password:
         required: false
-      documentation_token:
-        required: true
 
 jobs:
 

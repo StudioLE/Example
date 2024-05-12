@@ -29,6 +29,9 @@ jobs:
   build:
     name: Build
     runs-on: ${{ inputs.os }}
+    defaults:
+      run:
+        shell: bash
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       NUGET_CERT_REVOCATION_MODE: offline
@@ -43,7 +46,6 @@ jobs:
 
     - name: Add NuGet Source
       if: ${{ inputs.nuget_feed != '' }}
-      shell: bash
       run: >
         dotnet nuget add source
         --username "${{ inputs.nuget_username }}"
@@ -99,7 +101,7 @@ jobs:
     - name: List Test Results
       if: ${{ always() }}
       continue-on-error: true
-      run: ls -1 artifacts/tests
+      run: ls -R1 artifacts/tests
 
     - name: Upload Test Results
       if: ${{ always() }}

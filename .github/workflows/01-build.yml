@@ -94,10 +94,6 @@ jobs:
         --results-directory artifacts/tests
         > artifacts/tests/output.txt
 
-    - name: Copy Summary
-      if: ${{ always() }}
-      run: cat $GITHUB_STEP_SUMMARY > artifacts/tests/summary.md
-
     - name: List Test Results
       if: ${{ always() }}
       continue-on-error: true

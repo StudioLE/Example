@@ -144,7 +144,7 @@ jobs:
       path: ""
       message: "feat(example): Added documentation for v${{ needs.release.outputs.version }}"
     secrets:
-      repo_token: ${{ secrets.DOCUMENTATON_TOKEN }}
+      repo_token: ${{ secrets.DOCUMENTATION_TOKEN }}
 
   environment:
     name: Environment

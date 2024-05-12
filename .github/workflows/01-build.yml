@@ -98,7 +98,7 @@ jobs:
     - name: List Test Results
       if: ${{ always() }}
       continue-on-error: true
-      run: ls -R1 artifacts/tests
+      run: ls -1 artifacts/tests
 
     - name: Upload Test Results
       if: ${{ always() }}
@@ -125,7 +125,7 @@ jobs:
     - name: List Packages
       if: ${{ inputs.pack == 'true' }}
       continue-on-error: true
-      run: ls -R1 artifacts/packages
+      run: ls -1 artifacts/packages
 
     - name: Upload Packages
       if: ${{ inputs.pack == 'true' }}

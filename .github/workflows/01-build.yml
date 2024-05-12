@@ -75,6 +75,9 @@ jobs:
     - name: Make Directory
       run: mkdir -p artifacts/tests
 
+    - name: Update Summary
+      run: echo "[View Full Results](https://studiole.github.io/Tests/${{ github.repository }}/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+
     - name: Test
       run: >
         dotnet test "${{ inputs.project }}"
@@ -90,10 +93,8 @@ jobs:
         > artifacts/tests/output.txt
 
     - name: Copy Summary
+      if: ${{ always() }}
       run: cp $GITHUB_STEP_SUMMARY artifacts/tests/summary.md
-
-    - name: Update Summary
-      run: echo "[View Full Results](https://studiole.github.io/Tests/${{ github.repository }}/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
 
     - name: List Test Results
       if: ${{ always() }}

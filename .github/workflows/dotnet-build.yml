@@ -7,6 +7,9 @@ on:
         required: false
         type: string
         default: ubuntu-latest
+      run-before:
+        required: false
+        type: string
       project:
         required: false
         type: string
@@ -52,6 +55,10 @@ jobs:
         --password "${{ secrets.nuget_password }}"
         --store-password-in-clear-text
         "${{ inputs.nuget_feed }}"
+
+    - name: Run Before Hook
+      if: ${{ inputs.run-before != '' }}
+      run: ${{ inputs.run-before }}
 
     - name: Restore NuGet Dependencies
       run: >

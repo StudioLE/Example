@@ -7,7 +7,7 @@ jobs:
 
   test-ubuntu:
     name: Ubuntu
-    uses: ./.github/workflows/dotnet-build.yml
+    uses: ./.github/workflows/dotnet-test.yml
     with:
       project: ""
       os: ubuntu-latest
@@ -20,7 +20,7 @@ jobs:
   test-windows:
     name: Windows
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "beta", "alpha"]'), github.ref_name) }}
-    uses: ./.github/workflows/dotnet-build.yml
+    uses: ./.github/workflows/dotnet-test.yml
     with:
       project: ""
       os: windows-latest

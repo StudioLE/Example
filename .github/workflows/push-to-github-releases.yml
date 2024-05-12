@@ -43,7 +43,7 @@ jobs:
       if: ${{ inputs.version != '' }}
       env:
         GH_TOKEN: ${{ github.token }}
-      run: |
+      run: >
         gh release upload
         "v${{ inputs.version }}"
         "${{ inputs.name }}.zip"

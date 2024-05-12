@@ -115,8 +115,8 @@ jobs:
     - publish-cli-windows
     uses: ./.github/workflows/push-to-github-releases.yml
     with:
-      artifact: Cli-Linux
-      name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Linux-x64
+      artifact: Cli-Windows
+      name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Windows-x64
       version: ${{ needs.release.outputs.version }}
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

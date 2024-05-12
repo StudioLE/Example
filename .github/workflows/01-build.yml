@@ -80,9 +80,11 @@ jobs:
         --no-build
         --verbosity quiet
         --logger="Console;verbosity=normal"
+        --logger GitHubActions
         --logger html
         --logger trx
         --results-directory artifacts/tests
+        > artifacts/tests/output.txt
 
     - name: List Test Results
       if: ${{ always() }}

@@ -89,6 +89,12 @@ jobs:
         --results-directory artifacts/tests
         > artifacts/tests/output.txt
 
+    - name: Copy Summary
+      run: cp $GITHUB_STEP_SUMMARY artifacts/tests/summary.md
+
+    - name: Update Summary
+      run: echo "[View Full Results](https://studiole.github.io/Tests/${{ github.repository }}/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+
     - name: List Test Results
       if: ${{ always() }}
       continue-on-error: true

@@ -97,11 +97,11 @@ jobs:
     - name: Make Directory
       run: mkdir -p artifacts
 
-    - name: Generate v${{ inputs.version }} Documentation
+    - name: Generate v${{ steps.set-version.outputs.version }} Documentation
       working-directory: artifacts
       run: >
         Illuminate generate
-        "${{ inputs.source }}"
+        "../${{ inputs.source }}"
         --section "${{ inputs.section }}"
         --version "v${{ steps.set-version.outputs.version }}"
 
@@ -110,7 +110,7 @@ jobs:
       working-directory: artifacts
       run: >
         Illuminate generate
-        "${{ inputs.source }}"
+        "../${{ inputs.source }}"
         --section "${{ inputs.section }}"
         --version "latest"
 

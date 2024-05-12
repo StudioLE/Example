@@ -90,6 +90,9 @@ jobs:
     - name: Test
       run: >
         dotnet test "${{ inputs.project }}"
+        -p:CollectCoverage=true
+        -p:CoverletOutput='../../artifacts/tests/'
+        -p:CoverletOutputFormat=opencover
         --configuration "Release"
         --nologo
         --no-build
@@ -99,6 +102,11 @@ jobs:
         --logger html
         --logger trx
         --results-directory artifacts/tests
+
+    - name: List Test Results
+      if: ${{ always() }}
+      continue-on-error: true
+      run: ls -R1 artifacts/tests
 
     - name: List Test Results
       if: ${{ always() }}
@@ -126,6 +134,16 @@ jobs:
         -p:SurveyorToken="${{ secrets.nuget_password }}"
         --no-build
         --output artifacts/packages
+
+    - name: Install ReportGenerator
+      run:  dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Run ReportGenerator
+      run: >
+        reportgenerator
+        "-reports:artifacts/tests/coverage.opencover.xml"
+        "-targetdir:artifacts/tests/coverage"
+        "-reporttypes:Html"
 
     - name: List Packages
       if: ${{ inputs.pack == 'true' }}

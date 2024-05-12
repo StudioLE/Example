@@ -7,7 +7,7 @@ jobs:
 
   build-ubuntu:
     name: Ubuntu
-    uses: ./.github/workflows/01-build.yml
+    uses: ./.github/workflows/dotnet-build.yml
     with:
       project: ""
       os: ubuntu-latest
@@ -20,7 +20,7 @@ jobs:
   build-windows:
     name: Windows
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "beta", "alpha"]'), github.ref_name) }}
-    uses: ./.github/workflows/01-build.yml
+    uses: ./.github/workflows/dotnet-build.yml
     with:
       project: ""
       os: windows-latest
@@ -34,7 +34,7 @@ jobs:
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "alpha", "beta"]'), github.ref_name) }}
     needs:
     - build-ubuntu
-    uses: ./.github/workflows/02-release.yml
+    uses: ./.github/workflows/surveyor-release.yml
     with:
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       nuget_username: ${{ github.repository_owner }}
@@ -45,7 +45,7 @@ jobs:
     name: Push NuGet Packages
     needs:
     - release
-    uses: ./.github/workflows/03-push-to-nuget.yml
+    uses: ./.github/workflows/push-to-nuget.yml
     with:
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       nuget_username: ${{ github.repository_owner }}
@@ -57,7 +57,7 @@ jobs:
     if: ${{ always() }}
     needs:
     - build-ubuntu
-    uses: ./.github/workflows/03-push-to-repo.yml
+    uses: ./.github/workflows/push-to-repo.yml
     with:
       repo: StudioLE/Tests
       artifact: Tests-Linux-X64
@@ -71,7 +71,7 @@ jobs:
     name: Publish
     needs:
     - release
-    uses: ./.github/workflows/04-publish.yml
+    uses: ./.github/workflows/dotnet-publish.yml
     strategy:
       matrix:
         runtime:
@@ -94,7 +94,7 @@ jobs:
     if: ${{ needs.release.outputs.version != '' }}
     needs:
     - release
-    uses: ./.github/workflows/05-documentation.yml
+    uses: ./.github/workflows/illuminate-generate.yml
     with:
       project: ""
       os: ubuntu-latest

@@ -1,0 +1,80 @@
+name: Deploy to S3
+
+on:
+  workflow_call:
+    inputs:
+      artifact:
+        required: true
+        type: string
+      path:
+        required: false
+        type: string
+        default: ""
+      remove:
+        required: false
+        type: string
+        default: ""
+      invalidate:
+        required: false
+        type: boolean
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_DEFAULT_REGION:
+        required: true
+      S3_TARGET:
+        required: true
+      CF_DISTRIBUTION_ID:
+        required: true
+
+jobs:
+
+  push:
+    name: Push to S3
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      NUGET_CERT_REVOCATION_MODE: offline
+      DOTNET_NUGET_SIGNATURE_VERIFICATION: false
+    steps:
+
+    - name: Download
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact }}
+        path: ${{ inputs.path }}
+
+    - name: Remove existing from S3
+      if: ${{ inputs.rm == 'true' }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      run: >
+        aws s3 rm
+        --recursive
+        s3://${{ secrets.S3_TARGET }}
+
+    - name: Copy to S3
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      run: >
+        aws s3 cp
+        --recursive
+        ./
+        s3://${{ secrets.S3_TARGET }}
+
+    - name: Create invalidation
+      if: ${{ inputs.invalidate }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      run: >
+        aws cloudfront create-invalidation
+        --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }}
+        --paths "/*"

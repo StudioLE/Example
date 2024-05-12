@@ -96,7 +96,7 @@ jobs:
 
     - name: Copy Summary
       if: ${{ always() }}
-      run: cp $GITHUB_STEP_SUMMARY artifacts/tests/summary.md
+      run: cat $GITHUB_STEP_SUMMARY > artifacts/tests/summary.md
 
     - name: List Test Results
       if: ${{ always() }}

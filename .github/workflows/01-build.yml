@@ -72,6 +72,9 @@ jobs:
         --no-restore
         --verbosity minimal
 
+    - name: Make Directory
+      run: mkdir -p artifacts/tests
+
     - name: Test
       run: >
         dotnet test "${{ inputs.project }}"

@@ -105,8 +105,6 @@ jobs:
       artifact: Cli-Linux
       name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Linux-x64
       version: ${{ needs.release.outputs.version }}
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   push-cli-windows:
     name: Windows Cli
@@ -118,8 +116,6 @@ jobs:
       artifact: Cli-Windows
       name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Windows-x64
       version: ${{ needs.release.outputs.version }}
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   documentation:
     name: Documentation

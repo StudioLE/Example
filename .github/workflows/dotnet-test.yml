@@ -125,7 +125,7 @@ jobs:
         reportgenerator
         "-reports:artifacts/tests/coverage.opencover.xml"
         "-targetdir:artifacts/tests/coverage"
-        "-reporttypes:Html,MarkdownSummaryGithub"
+        "-reporttypes:Html;MarkdownSummaryGithub"
 
     - name: Update Summary
       run: |

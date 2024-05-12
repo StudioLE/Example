@@ -35,16 +35,6 @@ jobs:
     - name: List
       run: ls -R1
 
-    - name: Add NuGet Source
-      if: ${{ inputs.nuget_feed != '' }}
-      shell: bash
-      run: >
-        dotnet nuget add source
-        --username "${{ inputs.nuget_username }}"
-        --password "${{ secrets.nuget_password }}"
-        --store-password-in-clear-text
-        "${{ inputs.nuget_feed }}"
-
     - name: Push to NuGet Feed
       run: >
         dotnet nuget push "*"

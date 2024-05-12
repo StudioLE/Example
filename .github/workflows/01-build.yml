@@ -92,7 +92,6 @@ jobs:
         --logger html
         --logger trx
         --results-directory artifacts/tests
-        > artifacts/tests/output.txt
 
     - name: List Test Results
       if: ${{ always() }}

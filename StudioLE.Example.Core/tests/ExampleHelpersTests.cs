@@ -16,12 +16,4 @@ internal sealed class ExampleHelpersTests
         // Assert
         Assert.Pass();
     }
-    [Test]
-    public void ExampleHelpers_Fail()
-    {
-        // Arrange
-        //Act
-        // Assert
-        Assert.That("This", Is.EqualTo("That"));
-    }
 }

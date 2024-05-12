@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  build-ubuntu:
+  test-ubuntu:
     name: Ubuntu
     uses: ./.github/workflows/dotnet-build.yml
     with:
@@ -17,7 +17,7 @@ jobs:
     secrets:
       nuget_password: ${{ secrets.PACKAGES_TOKEN }}
 
-  build-windows:
+  test-windows:
     name: Windows
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "beta", "alpha"]'), github.ref_name) }}
     uses: ./.github/workflows/dotnet-build.yml
@@ -75,7 +75,7 @@ jobs:
     name: Release
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "alpha", "beta"]'), github.ref_name) }}
     needs:
-    - build-ubuntu
+    - test-ubuntu
     uses: ./.github/workflows/surveyor-release.yml
     with:
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
@@ -87,7 +87,7 @@ jobs:
     name: Test Results
     if: ${{ always() }}
     needs:
-    - build-ubuntu
+    - test-ubuntu
     uses: ./.github/workflows/push-to-repo.yml
     with:
       repo: StudioLE/Tests
@@ -123,7 +123,7 @@ jobs:
   push-cli-windows:
     name: Windows Cli
     needs:
-    - build-windows
+    - test-windows
     - publish-cli-windows
     - release
     uses: ./.github/workflows/push-to-github-releases.yml

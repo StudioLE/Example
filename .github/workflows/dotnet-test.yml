@@ -1,4 +1,4 @@
-name: Test
+name: Build, Test, Pack
 
 on:
   workflow_call:
@@ -29,8 +29,8 @@ on:
 
 jobs:
 
-  build:
-    name: Build
+  test:
+    name: Build, Test, Pack
     runs-on: ${{ inputs.os }}
     defaults:
       run:

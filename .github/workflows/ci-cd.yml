@@ -68,7 +68,6 @@ jobs:
       latest: ${{ github.ref_type == 'branch' && contains(fromJSON('["main"]'), github.ref_name) }}
       source: "*/src/bin/Release/*/StudioLE.*.dll"
       section: "example"
-      version: ${{ needs.release.outputs.version }}
     secrets:
       nuget_password: ${{ secrets.PACKAGES_TOKEN }}
 
@@ -142,6 +141,7 @@ jobs:
     with:
       repo: StudioLE/Documentation
       artifact: Documentation
+      path: ""
       message: "feat(example): Added documentation for v${{ needs.release.outputs.version }}"
     secrets:
       repo_token: ${{ secrets.DOCUMENTATON_TOKEN }}

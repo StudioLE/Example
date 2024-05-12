@@ -87,8 +87,6 @@ jobs:
         --logger html
         --logger trx
         --results-directory artifacts/tests
-        --
-        RunConfiguration.CollectSourceInformation=true
         > artifacts/tests/output.txt
 
     - name: List Test Results

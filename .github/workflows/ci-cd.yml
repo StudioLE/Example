@@ -57,6 +57,21 @@ jobs:
     secrets:
       nuget_password: ${{ secrets.PACKAGES_TOKEN }}
 
+  documentation:
+    name: Documentation
+    uses: ./.github/workflows/illuminate-generate.yml
+    with:
+      project: ""
+      os: ubuntu-latest
+      nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      nuget_username: ${{ github.repository_owner }}
+      latest: ${{ github.ref_type == 'branch' && contains(fromJSON('["main"]'), github.ref_name) }}
+      source: "*/src/bin/Release/*/StudioLE.*.dll"
+      section: "example"
+      version: ${{ needs.release.outputs.version }}
+    secrets:
+      nuget_password: ${{ secrets.PACKAGES_TOKEN }}
+
   release:
     name: Release
     if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "alpha", "beta"]'), github.ref_name) }}
@@ -118,24 +133,18 @@ jobs:
       name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Windows-x64
       version: ${{ needs.release.outputs.version }}
 
-  documentation:
+  push-documentation:
     name: Documentation
-    if: ${{ needs.release.outputs.version != '' }}
     needs:
+    - documentation
     - release
-    uses: ./.github/workflows/illuminate-generate.yml
+    uses: ./.github/workflows/push-to-repo.yml
     with:
-      project: ""
-      os: ubuntu-latest
-      nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-      nuget_username: ${{ github.repository_owner }}
-      environment: ${{ needs.release.outputs.environment }}
-      source: "*/src/bin/Release/*/StudioLE.*.dll"
-      section: "example"
-      version: ${{ needs.release.outputs.version }}
+      repo: StudioLE/Documentation
+      artifact: Documentation
+      message: "feat(example): Added documentation for v${{ needs.release.outputs.version }}"
     secrets:
-      nuget_password: ${{ secrets.PACKAGES_TOKEN }}
-      documentation_token: ${{ secrets.DOCUMENTATION_TOKEN }}
+      repo_token: ${{ secrets.DOCUMENTATON_TOKEN }}
 
   environment:
     name: Environment

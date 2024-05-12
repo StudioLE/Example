@@ -103,6 +103,16 @@ jobs:
         --logger trx
         --results-directory artifacts/tests
 
+    - name: Install ReportGenerator
+      run:  dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Run ReportGenerator
+      run: >
+        reportgenerator
+        "-reports:artifacts/tests/coverage.opencover.xml"
+        "-targetdir:artifacts/tests/coverage"
+        "-reporttypes:Html"
+
     - name: List Test Results
       if: ${{ always() }}
       continue-on-error: true
@@ -134,16 +144,6 @@ jobs:
         -p:SurveyorToken="${{ secrets.nuget_password }}"
         --no-build
         --output artifacts/packages
-
-    - name: Install ReportGenerator
-      run:  dotnet tool install -g dotnet-reportgenerator-globaltool
-
-    - name: Run ReportGenerator
-      run: >
-        reportgenerator
-        "-reports:artifacts/tests/coverage.opencover.xml"
-        "-targetdir:artifacts/tests/coverage"
-        "-reporttypes:Html"
 
     - name: List Packages
       if: ${{ inputs.pack == 'true' }}

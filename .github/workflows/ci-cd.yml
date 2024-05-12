@@ -98,8 +98,8 @@ jobs:
   push-cli-linux:
     name: Linux Cli
     needs:
-    - release
     - publish-cli-linux
+    - release
     uses: ./.github/workflows/push-to-github-releases.yml
     with:
       artifact: Cli-Linux
@@ -109,8 +109,9 @@ jobs:
   push-cli-windows:
     name: Windows Cli
     needs:
-    - release
+    - build-windows
     - publish-cli-windows
+    - release
     uses: ./.github/workflows/push-to-github-releases.yml
     with:
       artifact: Cli-Windows

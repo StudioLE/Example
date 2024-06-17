@@ -129,7 +129,7 @@ jobs:
     uses: ./.github/workflows/push-to-github-releases.yml
     with:
       artifact: Cli-Linux
-      name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Linux-x64
+      name: StudioLE.Example.Cli-linux-x64-v${{ needs.release.outputs.version }}
       file: true
       version: ${{ needs.release.outputs.version }}
 
@@ -142,7 +142,7 @@ jobs:
     uses: ./.github/workflows/push-to-github-releases.yml
     with:
       artifact: Cli-Windows
-      name: StudioLE.Example.Cli-${{ needs.release.outputs.version }}-Windows-x64
+      name: StudioLE.Example.Cli-win-x64-v${{ needs.release.outputs.version }}.exe
       file: true
       version: ${{ needs.release.outputs.version }}
 

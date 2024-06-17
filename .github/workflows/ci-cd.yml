@@ -31,6 +31,7 @@ jobs:
 
   publish-cli-linux:
     name: Linux CLI
+    if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "beta", "alpha"]'), github.ref_name) }}
     uses: ./.github/workflows/dotnet-publish.yml
     with:
       project: StudioLE.Example.Cli/src/StudioLE.Example.Cli.csproj
@@ -51,6 +52,7 @@ jobs:
 
   publish-cli-windows:
     name: Windows CLI
+    if: ${{ github.ref_type == 'branch' && contains(fromJSON('["main", "beta", "alpha"]'), github.ref_name) }}
     uses: ./.github/workflows/dotnet-publish.yml
     with:
       project: StudioLE.Example.Cli/src/StudioLE.Example.Cli.csproj

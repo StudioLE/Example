@@ -37,6 +37,12 @@ jobs:
       runtime: linux-x64
       npm: ""
       workload: ""
+      properties: >
+        -p:PublishSingleFile=true
+        -p:IncludeNativeLibrariesForSelfExtract=true
+        -p:SelfContained=false
+        -p:DebugType=embedded
+        -p:GenerateDocumentationFile=false
       artifact: Cli-Linux
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       nuget_username: ${{ github.repository_owner }}
@@ -51,6 +57,12 @@ jobs:
       runtime: win-x64
       npm: ""
       workload: ""
+      properties: >
+        -p:PublishSingleFile=true
+        -p:IncludeNativeLibrariesForSelfExtract=true
+        -p:SelfContained=false
+        -p:DebugType=embedded
+        -p:GenerateDocumentationFile=false
       artifact: Cli-Windows
       nuget_feed: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       nuget_username: ${{ github.repository_owner }}

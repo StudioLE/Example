@@ -102,6 +102,35 @@ jobs:
     secrets:
       nuget_password: ${{ secrets.PACKAGES_TOKEN }}
 
+  docker-build:
+    name: Docker Build
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      name: example
+
+  docker-push-prerelease:
+    name: Docker Push Prerelease
+    if: needs.release.outputs.type == 'prerelease'
+    needs:
+    - docker-build
+    - release
+    uses: ./.github/workflows/docker-push.yml
+    with:
+      name: example
+      version: ${{ needs.release.outputs.version }}
+
+  docker-push-release:
+    name: Docker Push Release
+    if: needs.release.outputs.type == 'release'
+    needs:
+    - docker-build
+    - release
+    uses: ./.github/workflows/docker-push.yml
+    with:
+      name: example
+      version: ${{ needs.release.outputs.version }}
+      tag: latest
+
   push-tests:
     name: Test Results
     if: always()

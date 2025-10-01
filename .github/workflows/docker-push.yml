@@ -1,0 +1,56 @@
+name: Docker Push
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: false
+        type: string
+        default: ubuntu-latest
+      name:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      tag:
+        required: false
+        type: string
+jobs:
+
+  docker-push:
+    runs-on: ${{ inputs.os }}
+    steps:
+
+    - name: Login
+      run: echo $GH_TOKEN | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Pull
+      run: >
+        docker pull
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
+
+    - name: Tag version
+      run: >
+        docker tag
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.version }}
+
+    - name: Push version
+      run: >
+        docker push
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.version }}
+
+    - name: Tag
+      if: inputs.tag != ''
+      run: >
+        docker tag
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}
+
+    - name: Push
+      if: inputs.tag != ''
+      run: >
+        docker push
+        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}

@@ -1,0 +1,10 @@
+*
+!.git
+!StudioLE.Example.Cli
+StudioLE.Example.Cli/*/bin
+StudioLE.Example.Cli/*/obj
+!StudioLE.Example.Core
+StudioLE.Example.Core/*/bin
+StudioLE.Example.Core/*/obj
+!Global.props
+!StudioLE.Example.sln

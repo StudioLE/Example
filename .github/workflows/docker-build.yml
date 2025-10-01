@@ -13,7 +13,6 @@ on:
       user:
         required: false
         type: string
-        default: ${{ github.actor.toLower() }}
       name:
         required: true
         type: string
@@ -39,10 +38,16 @@ jobs:
         restore-keys: |
           buildx-
 
+    - name: Set Docker User
+      run: echo "DOCKER_USER=${{ inputs.user || github.actor.toLower() }}" >> $GITHUB_ENV
+
+    - name: Set Docker Image
+      run: echo "DOCKER_IMAGE=${{ inputs.registry }}/$DOCKER_USER/${{ inputs.name }}" >> $GITHUB_ENV
+
     - name: Login
-      run: echo "$PW" | docker login ${{ inputs.registry }} -u ${{ inputs.user }} --password-stdin
+      run: echo "$PW" | docker login ${{ inputs.registry }} -u $DOCKER_USER --password-stdin
       env:
-        PW: ${{ inputs.password }}
+        PW: ${{ secrets.password }}
 
     - name: Create
       run: docker buildx create --use
@@ -50,7 +55,7 @@ jobs:
     - name: Build
       run: >
         docker buildx build .
-        --tag ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ github.sha }}
+        --tag $DOCKER_IMAGE:${{ github.sha }}
         --cache-from=type=local,src=/tmp/.buildx-cache
         --cache-to=type=local,dest=/tmp/.buildx-cache-new,mode=max
         --push

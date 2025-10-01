@@ -104,7 +104,7 @@ jobs:
 
   docker-build:
     name: Docker Build
-    uses: ./.github/workflows/docker-build.yml
+    uses: StudioLE/Actions/.github/workflows/docker-build.yml@v7
     with:
       name: example
       user: studiole
@@ -117,7 +117,7 @@ jobs:
     needs:
     - docker-build
     - release
-    uses: ./.github/workflows/docker-push.yml
+    uses: StudioLE/Actions/.github/workflows/docker-push.yml@v7
     with:
       name: example
       user: studiole
@@ -131,7 +131,7 @@ jobs:
     needs:
     - docker-build
     - release
-    uses: ./.github/workflows/docker-push.yml
+    uses: StudioLE/Actions/.github/workflows/docker-push.yml@v7
     with:
       name: example
       user: studiole

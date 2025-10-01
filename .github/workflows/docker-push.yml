@@ -6,6 +6,14 @@ on:
         required: false
         type: string
         default: ubuntu-latest
+      registry:
+        required: false
+        type: string
+        default: ghcr.io
+      user:
+        required: false
+        type: string
+        default: ${{ github.actor.toLower() }}
       name:
         required: true
         type: string
@@ -15,6 +23,10 @@ on:
       tag:
         required: false
         type: string
+    secrets:
+      password:
+        required: false
+        default: ${{ secrets.GITHUB_TOKEN }}
 jobs:
 
   docker-push:
@@ -22,35 +34,35 @@ jobs:
     steps:
 
     - name: Login
-      run: echo $GH_TOKEN | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      run: echo "$PW" | docker login ${{ inputs.registry }} -u ${{ inputs.user }} --password-stdin
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PW: ${{ inputs.password }}
 
     - name: Pull
       run: >
         docker pull
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ github.sha }}
 
     - name: Tag version
       run: >
         docker tag
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.version }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ github.sha }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ inputs.version }}
 
     - name: Push version
       run: >
         docker push
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.version }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ inputs.version }}
 
     - name: Tag
       if: inputs.tag != ''
       run: >
         docker tag
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ github.sha }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ inputs.tag }}
 
     - name: Push
       if: inputs.tag != ''
       run: >
         docker push
-        ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}
+        ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ inputs.tag }}

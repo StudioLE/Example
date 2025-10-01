@@ -6,12 +6,24 @@ on:
         required: false
         type: string
         default: ubuntu-latest
+      registry:
+        required: false
+        type: string
+        default: ghcr.io
+      user:
+        required: false
+        type: string
+        default: ${{ github.actor.toLower() }}
       name:
         required: true
         type: string
       args:
         required: false
         type: string
+    secrets:
+      password:
+        required: false
+        default: ${{ secrets.GITHUB_TOKEN }}
 jobs:
 
   docker-build:
@@ -28,9 +40,9 @@ jobs:
           buildx-
 
     - name: Login
-      run: echo $GH_TOKEN | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      run: echo "$PW" | docker login ${{ inputs.registry }} -u ${{ inputs.user }} --password-stdin
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PW: ${{ inputs.password }}
 
     - name: Create
       run: docker buildx create --use
@@ -38,7 +50,7 @@ jobs:
     - name: Build
       run: >
         docker buildx build .
-        --tag ghcr.io/${{ github.actor }}/${{ inputs.name }}:${{ github.sha }}
+        --tag ${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}:${{ github.sha }}
         --cache-from=type=local,src=/tmp/.buildx-cache
         --cache-to=type=local,dest=/tmp/.buildx-cache-new,mode=max
         --push

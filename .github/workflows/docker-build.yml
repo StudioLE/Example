@@ -11,7 +11,7 @@ on:
         type: string
         default: ghcr.io
       user:
-        required: false
+        required: true
         type: string
       name:
         required: true
@@ -22,7 +22,6 @@ on:
     secrets:
       password:
         required: false
-        default: ${{ secrets.GITHUB_TOKEN }}
 jobs:
 
   docker-build:
@@ -38,14 +37,11 @@ jobs:
         restore-keys: |
           buildx-
 
-    - name: Set Docker User
-      run: echo "DOCKER_USER=${{ inputs.user || github.actor.toLower() }}" >> $GITHUB_ENV
-
     - name: Set Docker Image
-      run: echo "DOCKER_IMAGE=${{ inputs.registry }}/$DOCKER_USER/${{ inputs.name }}" >> $GITHUB_ENV
+      run: echo "DOCKER_IMAGE=${{ inputs.registry }}/${{ inputs.user }}/${{ inputs.name }}" >> $GITHUB_ENV
 
     - name: Login
-      run: echo "$PW" | docker login ${{ inputs.registry }} -u $DOCKER_USER --password-stdin
+      run: echo "$PW" | docker login ${{ inputs.registry }} -u ${{ inputs.user }} --password-stdin
       env:
         PW: ${{ secrets.password }}
 

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS builder
 ARG CONFIGURATION="Release"
 ARG PROJECT="StudioLE.Example.Cli/src/StudioLE.Example.Cli.csproj"
 ARG RUNTIME="linux-musl-x64"
@@ -14,7 +14,7 @@ RUN dotnet publish "${PROJECT}" \
   --runtime "${RUNTIME}" \
   --output artifacts
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0-alpine
+FROM mcr.microsoft.com/dotnet/runtime:10.0-alpine
 ARG EXECUTABLE="StudioLE.Example"
 COPY --from=builder /app/artifacts/"${EXECUTABLE}" /bin/app
 RUN chmod +x /bin/app
